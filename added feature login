@@ -1,13 +1,30 @@
-### Login Feature
+CREATE DATABASE login_system;
 
-The Login Feature is an essential component of the system that allows registered users to securely access their accounts and use the features available to them. It serves as the primary authentication mechanism of the application by verifying the identity of users before granting access to protected pages, personal information, and system functionalities.
+USE login_system;
 
-To log in, users are required to provide their registered email address or username along with their password. The system checks the provided credentials against the information stored in the database. If the credentials are correct, the user is successfully authenticated and redirected to the appropriate page, such as the dashboard or homepage. If the credentials are incorrect, the system displays a clear error message informing the user that the login information is invalid and allows them to try again.
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+); 
+<?php
 
-The Login Feature is designed to provide a simple and user-friendly experience while maintaining account security. Input fields are properly validated to ensure that required information is provided and that users receive immediate feedback when there are missing or invalid entries. Passwords should be securely handled and stored using appropriate security practices to help protect users’ accounts and personal information.
+$host = "localhost";
+$dbname = "login_system";
+$dbuser = "root";
+$dbpass = "";
 
-The feature can also support additional authentication-related functions, such as a “Remember Me” option, password visibility controls, and a “Forgot Password” function that allows users to recover or reset their passwords. These functions improve accessibility and convenience while helping users maintain control over their accounts.
+try {
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $dbuser,
+        $dbpass
+    );
 
-After successful authentication, the system can identify the user’s account and determine the appropriate access level or role. This ensures that users only have access to features and information permitted for their account type. For example, regular users may be directed to a user dashboard, while administrators may be provided access to management and administrative functions.
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-Overall, the Login Feature provides a secure gateway into the application. It ensures that only authenticated users can access protected areas of the system while providing a straightforward and convenient login experience. By combining credential validation, user feedback, account security, and role-based access, the feature contributes to the overall reliability, privacy, and security of the system.
+} catch (PDOException $e) {
+    die("Database connection failed.");
+}
+?>
